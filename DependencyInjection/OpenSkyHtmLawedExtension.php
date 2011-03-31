@@ -21,19 +21,19 @@ class OpenSkyHtmLawedExtension extends Extension
 
         $config = $processor->process($configuration->getConfigTree(), $configs);
 
-        foreach ($config as $id => $value) {
-            $this->createHtmLawed($container, $id, $value);
+        $container->setParameter('opensky.htmlawed.file', $config['file']);
+
+        foreach ($config['profiles'] as $id => $params) {
+            $this->createHtmLawed($container, $id, $params);
         }
     }
 
-    private function createHtmLawed(ContainerBuilder $container, $id, array $config)
+    private function createHtmLawed(ContainerBuilder $container, $id, array $params)
     {
-        $serviceId = 'htmlawed.'.$id;
-
         $container
-            ->setDefinition($serviceId, new DefinitionDecorator('opensky.htmlawed.abstract'))
-            ->setArgument(0, $config['config'])
-            ->setArgument(1, $config['spec'])
+            ->setDefinition('htmlawed.'.$id, new DefinitionDecorator('opensky.htmlawed.abstract'))
+            ->setArgument(0, $params['config'])
+            ->setArgument(1, $params['spec'])
         ;
     }
 

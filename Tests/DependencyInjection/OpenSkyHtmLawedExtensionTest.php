@@ -13,7 +13,11 @@ class OpenSkyHtmlLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
         $extension = new OpenSkyHtmLawedExtension();
 
-        $extension->load(array(array()), $container);
+        $config = array(
+            'file' => '%kernel.root_dir%/../vendor/htmlawed/htmLawed.php',
+        );
+
+        $extension->load(array($config), $container);
 
         $definitions = $container->getDefinitions();
         $this->assertEquals(1, count($definitions));
@@ -26,11 +30,14 @@ class OpenSkyHtmlLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new OpenSkyHtmLawedExtension();
 
         $config = array(
-            'custom' => array(
-                'config' => array('comment' => 0, 'cdata' => 1),
-                'spec' => 'a=title',
+            'file' => '%kernel.root_dir%/../vendor/htmlawed/htmLawed.php',
+            'profiles' => array(
+                'custom' => array(
+                    'config' => array('comment' => 0, 'cdata' => 1),
+                    'spec' => 'a=title',
+                ),
+                'default' => null,
             ),
-            'default' => null,
         );
 
         $extension->load(array($config), $container);
@@ -41,8 +48,8 @@ class OpenSkyHtmlLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($definitions));
 
         $arguments = $definitions['htmlawed.custom']->getArguments();
-        $this->assertEquals($config['custom']['config'], $arguments[0]);
-        $this->assertEquals($config['custom']['spec'], $arguments[1]);
+        $this->assertEquals($config['profiles']['custom']['config'], $arguments[0]);
+        $this->assertEquals($config['profiles']['custom']['spec'], $arguments[1]);
 
         $arguments = $definitions['htmlawed.default']->getArguments();
         $this->assertEquals(array(), $arguments[0]);
@@ -51,6 +58,7 @@ class OpenSkyHtmlLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
 
     private function compileContainer(ContainerBuilder $container)
     {
+        $container->setParameter('kernel.root_dir', __DIR__);
         $container->getCompilerPassConfig()->setOptimizationPasses(array(
             new ResolveDefinitionTemplatesPass(),
         ));

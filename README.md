@@ -1,16 +1,10 @@
 # HtmLawedBundle
 
-This bundle wraps the htmLawed library as a Symfony2 service and provides form
-fields.
+This bundle wraps the [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/)
+library as a Symfony2 service. Ultimately, it will provide form fields to easily
+sanitize user input.
 
 ## Installation
-
-### Dependencies
-
-This bundle depends on [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/).
-
-Since htmLawed is not packaged as a class, it cannot be autoloaded. You should
-manually require the library from your project's `autoload.php` file.
 
 ### Submodule Creation
 
@@ -50,21 +44,27 @@ parameters provided during construction will be passed to `htmLawed()`.
 
 ### HtmLawed Extension
 
-HtmLawed services may be configured with the following:
+HtmLawedBundle may be configured with the following:
 
     # app/config/config.yml
 
     opensky_htmlawed:
-        custom:
-            config:
-                comment: 0
-                cdata:   1
-            spec: a=title
-        default: ~
+        file: %kernel.root_dir%/../vendor/htmlawed/htmLawed.php
+        profiles:
+            custom:
+                config:
+                    comment: 0
+                    cdata:   1
+                spec: a=title
+            default: ~
 
-The above example would define two services: `htmlawed.custom` and `htmlawed.default`.
-Each service created by the extension is essentially a pre-configured profile
-for filtering input using `htmLawed()`.
+The above example would define two services: `htmlawed.custom` and `htmlawed.default`,
+which will use their respective options as additional arguments to `htmLawed()`
+when filtering a string.
+
+The `file` option should be set with the path to the htmLawed vendor library.
+The service container will ensure this file resource is loaded before one of the
+configured services is constructed.
 
 See also:
 
