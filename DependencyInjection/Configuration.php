@@ -15,30 +15,27 @@ class Configuration
     {
         $treeBuilder = new TreeBuilder();
 
-        // TODO: Uncomment children()/end() pairs for PR8+ compatibility
         return $treeBuilder
             ->root('opensky_htmlawed', 'array')
-                //->children()
+                ->children()
                     ->scalarNode('file')->isRequired()->cannotBeEmpty()->end()
                     ->arrayNode('profiles')
-                        //->children()
-                            ->useAttributeAsKey('id')
-                            ->prototype('array')
-                                //->children()
-                                    // TODO: Add htmLawed configuration structure
-                                    ->variableNode('config')
-                                        ->defaultValue(array())
-                                        ->beforeNormalization()
-                                            ->ifTrue(function($v){ return !is_array($v); })
-                                            ->thenEmptyArray()
-                                        ->end()
+                        ->useAttributeAsKey('id')
+                        ->prototype('array')
+                            ->children()
+                                // TODO: Add htmLawed configuration structure
+                                ->variableNode('config')
+                                    ->defaultValue(array())
+                                    ->beforeNormalization()
+                                        ->ifTrue(function($v){ return !is_array($v); })
+                                        ->thenEmptyArray()
                                     ->end()
-                                    ->scalarNode('spec')->defaultNull()->end()
-                                //->end()
+                                ->end()
+                                ->scalarNode('spec')->defaultNull()->end()
                             ->end()
-                        //->end()
+                        ->end()
                     ->end()
-                //->end()
+                ->end()
             ->end()
             ->buildTree()
         ;
