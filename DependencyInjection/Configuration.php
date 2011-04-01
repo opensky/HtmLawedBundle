@@ -17,12 +17,12 @@ class Configuration
 
         return $treeBuilder
             ->root('opensky_htmlawed', 'array')
-                ->children()
+                //->children()
                     ->scalarNode('file')->isRequired()->cannotBeEmpty()->end()
                     ->arrayNode('profiles')
                         ->useAttributeAsKey('id')
                         ->prototype('array')
-                            ->children()
+                            //->children()
                                 // TODO: Add htmLawed configuration structure
                                 ->variableNode('config')
                                     ->defaultValue(array())
@@ -32,10 +32,10 @@ class Configuration
                                     ->end()
                                 ->end()
                                 ->scalarNode('spec')->defaultNull()->end()
-                            ->end()
+                            //->end()
                         ->end()
                     ->end()
-                ->end()
+                //->end()
             ->end()
             ->buildTree()
         ;
