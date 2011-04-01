@@ -15,7 +15,8 @@ spl_autoload_register(function($class)
     }
 });
 
+// Replacement htmLawed() function for unit testing
 function htmLawed($input, $config, $spec)
 {
-    return $input;
+    return strip_tags($input);
 }

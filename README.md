@@ -1,8 +1,9 @@
 # HtmLawedBundle
 
-This bundle wraps the [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/)
-library as a Symfony2 service. Ultimately, it will provide form fields to easily
-sanitize user input.
+This bundle integrates [htmLawed][1] with Symfony2. It allows you to define
+htmLawed configuration profiles, which are exposed as services implementing
+`ValueTransformerInterface`. These transformers can easily be attached to form
+fields for input sanitization.
 
 ## Installation
 
@@ -60,7 +61,7 @@ HtmLawedBundle may be configured with the following:
 
 The above example would define two services: `htmlawed.custom` and `htmlawed.default`,
 which will use their respective options as additional arguments to `htmLawed()`
-when filtering a string.
+when filtering input.
 
 The `file` option should be set with the path to the htmLawed vendor library.
 The service container will ensure this file resource is loaded before one of the
@@ -68,4 +69,38 @@ configured services is constructed.
 
 See also:
 
- * [htmLawed documentation](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm)
+ * [htmLawed documentation][2]
+
+## HtmLawedTransformer
+
+The services created by this bundle implement `ValueTransformerInterface` from
+the Symfony2 Form component. Filtering is only done via `transform()`. The
+`reverseTransform()` method is an identity function (i.e. it returns its input).
+
+## Using with Form Fields
+
+The htmLawed services should be assigned to form fields as normalization
+transformers (not value transformers). The following example demonstrates how
+to inject the transformer service into the field through the form object.
+
+    use Symfony\Component\Form\Form;
+    use Symfony\Component\Form\TextareaField;
+
+    class MyForm extends Form
+    {
+        protected function configure()
+        {
+            $this->addRequiredOption('htmlawed');
+
+            $field = new TextareaField('html', array(
+                'normalization_transformer' => $this->getOption('htmlawed')
+            ));
+        }
+    }
+
+    $form = new MyForm('my_form', array(
+        'htmlawed' => $container->get('htmlawed.custom');
+    ));
+
+  [1]: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
+  [2]: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm
