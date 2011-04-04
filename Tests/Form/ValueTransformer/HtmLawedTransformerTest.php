@@ -8,9 +8,11 @@ class HtmlLawedTransformerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransformShouldFilterInput()
     {
-        $transformer = new HtmLawedTransformer();
+        // The bootstrapped htmLawed() function wraps strip_tags(), but specify
+        // an equivalent configuration in case the actual htmLawed() library is
+        // used.
+        $transformer = new HtmLawedTransformer(array('elements' => '-*'));
 
-        // The bootstrapped htmLawed() function wraps strip_tags()
         $this->assertEquals('input', $transformer->transform('<b>input</b>'));
     }
 
