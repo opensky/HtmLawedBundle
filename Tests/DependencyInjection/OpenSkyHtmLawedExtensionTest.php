@@ -6,7 +6,7 @@ use OpenSky\Bundle\HtmLawedBundle\DependencyInjection\OpenSkyHtmLawedExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 
-class OpenSkyHtmlLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
+class OpenSkyHtmLawedExtensionExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldLoadAbstractDefinition()
     {
