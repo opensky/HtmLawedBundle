@@ -4,7 +4,7 @@ namespace OpenSky\Bundle\HtmLawedBundle\Tests\Form\ValueTransformer;
 
 use OpenSky\Bundle\HtmLawedBundle\Form\ValueTransformer\HtmLawedTransformer;
 
-class HtmlLawedTransformerTest extends \PHPUnit_Framework_TestCase
+class HtmLawedTransformerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransformShouldFilterInput()
     {
