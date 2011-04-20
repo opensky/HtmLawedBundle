@@ -32,8 +32,8 @@ class OpenSkyHtmLawedExtension extends Extension
     {
         $container
             ->setDefinition('htmlawed.'.$id, new DefinitionDecorator('opensky.htmlawed.abstract'))
-            ->setArgument(0, $params['config'])
-            ->setArgument(1, $params['spec'])
+            ->replaceArgument(0, $params['config'])
+            ->replaceArgument(1, $params['spec'])
         ;
     }
 
