@@ -73,34 +73,14 @@ See also:
 
 ## HtmLawedTransformer
 
-The services created by this bundle implement `ValueTransformerInterface` from
-the Symfony2 Form component. Filtering is only done via `transform()`. The
-`reverseTransform()` method is an identity function (i.e. it returns its input).
+The services created by this bundle implement `DataTransformerInterface` from
+the Symfony2 Form component. Filtering is only done via `reverseTransform()`.
+The `transform()` method is an identity function (i.e. it returns its input).
 
 ## Using with Form Fields
 
-The htmLawed services should be assigned to form fields as normalization
-transformers (not value transformers). The following example demonstrates how
-to inject the transformer service into the field through the form object.
-
-    use Symfony\Component\Form\Form;
-    use Symfony\Component\Form\TextareaField;
-
-    class MyForm extends Form
-    {
-        protected function configure()
-        {
-            $this->addRequiredOption('htmlawed');
-
-            $field = new TextareaField('html', array(
-                'normalization_transformer' => $this->getOption('htmlawed')
-            ));
-        }
-    }
-
-    $form = new MyForm('my_form', array(
-        'htmlawed' => $container->get('htmlawed.custom');
-    ));
+The htmLawed services should be assigned to form fields as a client transformer.
+Documentation is forthcoming.
 
   [1]: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
   [2]: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm
