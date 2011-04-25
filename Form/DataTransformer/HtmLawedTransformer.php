@@ -1,10 +1,11 @@
 <?php
 
-namespace OpenSky\Bundle\HtmLawedBundle\Form\ValueTransformer;
+namespace OpenSky\Bundle\HtmLawedBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\ValueTransformer\ValueTransformerInterface;
+use Symfony\Component\Form\DataTransformer\DataTransformerInterface;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
-class HtmLawedTransformer implements ValueTransformerInterface
+class HtmLawedTransformer implements DataTransformerInterface
 {
     private $config;
     private $spec;
@@ -26,7 +27,7 @@ class HtmLawedTransformer implements ValueTransformerInterface
      */
     public function transform($value)
     {
-        return htmLawed($value, $this->config, $this->spec);
+        return $value;
     }
 
     /**
@@ -34,6 +35,14 @@ class HtmLawedTransformer implements ValueTransformerInterface
      */
     public function reverseTransform($value)
     {
-        return $value;
+        if (!is_string($value)) {
+            throw new UnexpectedTypeException($value, 'string');
+        }
+
+        if ('' === $value) {
+            return null;
+        }
+
+        return htmLawed($value, $this->config, $this->spec);
     }
 }
