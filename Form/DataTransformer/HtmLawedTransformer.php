@@ -2,7 +2,7 @@
 
 namespace OpenSky\Bundle\HtmLawedBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformer\DataTransformerInterface;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 class HtmLawedTransformer implements DataTransformerInterface
